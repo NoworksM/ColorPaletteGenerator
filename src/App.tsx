@@ -3,13 +3,20 @@ import BasePalette from './components/base-palette'
 import ColorItem from './data/color-item.ts'
 import maxBy from './util/max-by.ts'
 import Color from 'colorjs.io'
+import {loadColorPalette} from './storage.ts'
 
 const defaultColorHex = "#6366f1";
 const defaultColor = new Color(defaultColorHex)
+const defaultColors = loadColorPalette([{index: 0, color: defaultColorHex, hue: defaultColor.oklch[2]}])
 
 function App() {
+    const [minLightness, setMinLightness] = useState(defaultColor.oklch.l - 10)
+    const [maxLightness, setMaxLightness] = useState(defaultColor.oklch.l + 10)
+    const [minSaturation, setMinSaturation] = useState(defaultColor.oklch.c)
+    const [maxSaturation, setMaxSaturation] = useState(defaultColor.oklch.c)
+    const [shadeCount, setShadeCount] = useState(4)
     const [lightnessGap, setLightnessGap] = useState(10)
-    const [colors, setColors] = useState<Readonly<ColorItem>[]>([{index: 0, color: defaultColorHex, hue: defaultColor.oklch[2]}])
+    const [colors, setColors] = useState<Readonly<ColorItem>[]>(defaultColors)
 
     const addColor = () => {
         const maxItem = maxBy(colors, (v) => v.index)
