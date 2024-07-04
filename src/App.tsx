@@ -9,7 +9,7 @@ const defaultColor = new Color(defaultColorHex)
 
 function App() {
     const [lightnessGap, setLightnessGap] = useState(10)
-    const [colors, setColors] = useState<ColorItem[]>([{index: 0, color: defaultColorHex, hue: defaultColor.oklch[2]}])
+    const [colors, setColors] = useState<Readonly<ColorItem>[]>([{index: 0, color: defaultColorHex, hue: defaultColor.oklch[2]}])
 
     const addColor = () => {
         const maxItem = maxBy(colors, (v) => v.index)
@@ -23,6 +23,19 @@ function App() {
         setColors(updatedColors)
     }
 
+    const colorChanged = (colorItem: ColorItem) => {
+        const updatedColors = [...colors]
+
+        for (let idx = 0; idx < updatedColors.length; idx++) {
+            if (updatedColors[idx].index === colorItem.index) {
+                updatedColors[idx] = colorItem
+                break
+            }
+        }
+
+        setColors(updatedColors)
+    }
+
     return (
         <div className="flex flex-col h-screen">
             <header className="sticky top-0 z-10 h-8 bg-slate-300 dark:bg-slate-700">
@@ -31,7 +44,7 @@ function App() {
                 </div>
             </header>
             <main className="bg-slate-100 dark:bg-slate-800 flex-1 h-[calc(100vh - )] ">
-                <BasePalette colors={colors} onAdd={addColor}/>
+                <BasePalette colors={colors} onAdd={addColor} onColorChanged={colorChanged}/>
             </main>
             <footer>
 
