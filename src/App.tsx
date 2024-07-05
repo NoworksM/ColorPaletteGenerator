@@ -42,6 +42,11 @@ function App() {
 
         const color = new Color(colorItem.color)
 
+        color.oklch.l = (palette.maxLightness + palette.minLightness) / 2
+        color.oklch.c = (palette.maxChroma + palette.minChroma) / 2
+
+        colorItem.color = color.toString({format: "hex"})
+
         for (let idx = 0; idx < updatedColors.length; idx++) {
             if (updatedColors[idx].index === colorItem.index) {
                 updatedColors[idx] = colorItem
