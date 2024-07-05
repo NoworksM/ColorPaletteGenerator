@@ -11,12 +11,12 @@ export default function RangeSlider({min, max, step, value, onValueChanged, deci
 
     id ??= label
 
-    return <div className={`flex flex-col ${width} ${height}`}>
+    return <div className={`flex flex-col ${width} ${height} m-2`}>
         <div className="flex flex-row w-full">
             <label htmlFor={id} className="text-slate-950 dark:text-slate-50 flex-1">{label}</label>
-            <input id={id} name={id} type="number" min={min} max={max} step={step} value={value?.toFixed(decimalPlaces ?? 0)} onChange={change}/>
+            <input id={id} name={id} type="number" min={min} max={max} step={step} className="input" value={value?.toFixed(decimalPlaces ?? 0)} onChange={change}/>
         </div>
-        <input type="range" min={min} max={max} step={step} value={value} onChange={change}/>
+        <input type="range" className="text-slate-600" min={min} max={max} step={step} value={value} onChange={change}/>
     </div>
 }
 
