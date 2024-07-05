@@ -6,6 +6,7 @@ import Color from 'colorjs.io'
 import {loadDefaultColorPalette, saveDefaultColorPalette} from './storage.ts'
 import PaletteSettings from './components/palette-settings.tsx'
 import ColorPalette from './data/color-palette.ts'
+import PaletteDisplay from './components/palette-display.tsx'
 
 const defaultColorHex = "#6366f1";
 const defaultColor = new Color(defaultColorHex)
@@ -70,6 +71,7 @@ function App() {
             <main className="bg-slate-100 dark:bg-slate-800 flex-1 h-[calc(100vh - )]">
                 <PaletteSettings palette={palette} onPaletteChanged={paletteChanged}/>
                 <BasePalette colors={palette.colors} onAdd={addColor} onColorChanged={colorChanged}/>
+                <PaletteDisplay palette={palette}/>
             </main>
             <footer>
 

@@ -44,8 +44,8 @@ export default function PaletteSettings({palette, onPaletteChanged}: PaletteSett
 
     return <div className="flex flex-col">
         <RangeSlider key="shades" value={palette.shades} label="Shades" min={0} max={32} step={1} onValueChanged={shadesChanged}/>
-        <RangeSlider key="minLightness" value={palette.minLightness} label="Min Lightness" min={0} max={100} onValueChanged={minLightnessChanged}/>
-        <RangeSlider key="maxLightness" value={palette.maxLightness} label="Max Lightness" min={0} max={100} onValueChanged={maxLightnessChanged}/>
+        <RangeSlider key="minLightness" value={palette.minLightness} label="Min Lightness" min={0} max={1} step={0.001} decimalPlaces={3} onValueChanged={minLightnessChanged}/>
+        <RangeSlider key="maxLightness" value={palette.maxLightness} label="Max Lightness" min={0} max={1} step={0.001} decimalPlaces={3} onValueChanged={maxLightnessChanged}/>
         <RangeSlider key="minChroma" value={palette.minChroma} label="Min Chroma" min={0.0} max={0.37} step={0.001} decimalPlaces={3} onValueChanged={minChromaChanged}/>
         <RangeSlider key="maxChroma" value={palette.maxChroma} label="Max Chroma" min={0.0} max={0.37} step={0.001} decimalPlaces={3} onValueChanged={maxChromaChanged}/>
     </div>
