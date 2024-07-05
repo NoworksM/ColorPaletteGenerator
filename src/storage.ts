@@ -1,4 +1,3 @@
-import ColorItem from './data/color-item.ts'
 import ColorPalette, {ColorPaletteSchema} from './data/color-palette.ts'
 
 const colorPaletteKey = "colorPalette"
@@ -24,7 +23,7 @@ export function loadDefaultColorPalette(defaultValue: Readonly<ColorPalette>): R
     }
 }
 
-export function saveDefaultColorPalette(value: Readonly<ColorItem[]>) {
+export function saveDefaultColorPalette(value: ColorPalette) {
     localStorage.setItem(colorPaletteKey, JSON.stringify(value))
 }
 
