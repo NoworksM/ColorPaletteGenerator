@@ -40,6 +40,8 @@ function App() {
     const colorChanged = (colorItem: ColorItem) => {
         const updatedColors = [...palette.colors]
 
+        const color = new Color(colorItem.color)
+
         for (let idx = 0; idx < updatedColors.length; idx++) {
             if (updatedColors[idx].index === colorItem.index) {
                 updatedColors[idx] = colorItem
@@ -50,15 +52,33 @@ function App() {
         const cloned = structuredClone(palette) as ColorPalette
         cloned.colors = updatedColors
 
+        updateColorLightnessAndChroma(cloned)
+
         saveDefaultColorPalette(cloned)
 
         setPalette(cloned)
     }
 
     const paletteChanged = (colorPalette: ColorPalette) => {
+        updateColorLightnessAndChroma(colorPalette)
+
         saveDefaultColorPalette(colorPalette)
 
         setPalette(colorPalette)
+    }
+
+    const updateColorLightnessAndChroma = (colorPalette: ColorPalette) => {
+        const averageLightness = (colorPalette.maxLightness + colorPalette.minLightness) / 2
+        const averageChroma = (colorPalette.maxChroma + colorPalette.minChroma) / 2
+
+        for (const colorItem of colorPalette.colors) {
+            const color = new Color(colorItem.color)
+
+            color.oklch.l = averageLightness
+            color.oklch.c = averageChroma
+
+            colorItem.color = color.toString({format: "hex"})
+        }
     }
 
     return (
