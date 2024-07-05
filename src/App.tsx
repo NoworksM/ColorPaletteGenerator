@@ -3,11 +3,11 @@ import BasePalette from './components/base-palette'
 import ColorItem from './data/color-item.ts'
 import maxBy from './util/max-by.ts'
 import Color from 'colorjs.io'
-import {loadColorPalette} from './storage.ts'
+import {loadDefaultColorPalette, saveDefaultColorPalette} from './storage.ts'
 
 const defaultColorHex = "#6366f1";
 const defaultColor = new Color(defaultColorHex)
-const defaultColors = loadColorPalette([{index: 0, color: defaultColorHex, hue: defaultColor.oklch[2]}])
+const defaultColors = loadDefaultColorPalette([{index: 0, color: defaultColorHex, hue: defaultColor.oklch[2]}])
 
 function App() {
     const [minLightness, setMinLightness] = useState(defaultColor.oklch.l - 10)
@@ -39,6 +39,8 @@ function App() {
                 break
             }
         }
+
+        saveDefaultColorPalette(updatedColors)
 
         setColors(updatedColors)
     }

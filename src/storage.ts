@@ -1,8 +1,12 @@
-import ColorItem, {ColorItemArraySchema} from './data/color-item.ts'
+import ColorItem from './data/color-item.ts'
+import ColorPalette, {ColorPaletteSchema} from './data/color-palette.ts'
 
 const colorPaletteKey = "colorPalette"
 
-export function loadColorPalette(defaultValue: Readonly<ColorItem[]>): Readonly<ColorItem[]> {
+const minLightnessKey = "minLightness"
+const maxLightnessKey = "maxLightness"
+
+export function loadDefaultColorPalette(defaultValue: Readonly<ColorPalette>): Readonly<ColorPalette> {
     const storedColorsRaw = localStorage.getItem(colorPaletteKey)
 
     if (!storedColorsRaw) {
@@ -11,7 +15,7 @@ export function loadColorPalette(defaultValue: Readonly<ColorItem[]>): Readonly<
 
     const parsed = JSON.parse(storedColorsRaw)
 
-    const schemaParsed = ColorItemArraySchema.safeParse(parsed)
+    const schemaParsed = ColorPaletteSchema.safeParse(parsed)
 
     if (schemaParsed.success) {
         return schemaParsed.data
@@ -20,6 +24,34 @@ export function loadColorPalette(defaultValue: Readonly<ColorItem[]>): Readonly<
     }
 }
 
-export function saveColorPalette(value: Readonly<ColorItem[]>) {
+export function saveDefaultColorPalette(value: Readonly<ColorItem[]>) {
     localStorage.setItem(colorPaletteKey, JSON.stringify(value))
+}
+
+export function loadMinLightness(defaultValue: number) {
+    const rawMinLightness = localStorage.getItem(minLightnessKey)
+
+    if (!rawMinLightness) {
+        return defaultValue
+    } else {
+        return parseFloat(rawMinLightness)
+    }
+}
+
+export function saveMinLightness(value: number) {
+    localStorage.setItem(minLightnessKey, value.toString())
+}
+
+export function loadMaxLightness(defaultValue: number) {
+    const rawMaxLightness = localStorage.getItem(maxLightnessKey)
+
+    if (!rawMaxLightness) {
+        return defaultValue
+    } else {
+        return parseFloat(rawMaxLightness)
+    }
+}
+
+export function saveMaxLightness(value: number) {
+    localStorage.setItem(maxLightnessKey, value.toString())
 }
