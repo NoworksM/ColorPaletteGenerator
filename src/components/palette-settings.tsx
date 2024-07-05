@@ -1,6 +1,7 @@
 import ColorPalette from '../data/color-palette.ts'
 import RangeSlider from './input/range-slider.tsx'
 import Checkbox from './input/checkbox.tsx'
+import {ReactElement} from 'react'
 
 export default function PaletteSettings({palette, onPaletteChanged}: PaletteSettingsParams) {
     const minLightnessChanged = (minLightness: number) => {
@@ -65,7 +66,7 @@ export default function PaletteSettings({palette, onPaletteChanged}: PaletteSett
     const uniformChromaChanged = (uniformChroma: boolean) => {
         const cloned = structuredClone(palette) as ColorPalette
 
-        cloned.uniformLightness = uniformChroma
+        cloned.uniformChroma = uniformChroma
         cloned.maxChroma = cloned.minChroma
 
         onPaletteChanged?.(cloned)
@@ -79,14 +80,40 @@ export default function PaletteSettings({palette, onPaletteChanged}: PaletteSett
         onPaletteChanged?.(cloned)
     }
 
+    let lightnessSliders: ReactElement[]
+
+    if (palette.uniformLightness) {
+        lightnessSliders = [<RangeSlider key="lightness" value={palette.minLightness} label="Lightness" min={0} max={1}
+                                         step={0.001} decimalPlaces={3} onValueChanged={lightnessChanged}/>]
+    } else {
+        lightnessSliders = [
+            <RangeSlider key="minLightness" value={palette.minLightness} label="Min Lightness" min={0} max={1}
+                         step={0.001} decimalPlaces={3} onValueChanged={minLightnessChanged}/>,
+            <RangeSlider key="maxLightness" value={palette.maxLightness} label="Max Lightness" min={0} max={1}
+                         step={0.001} decimalPlaces={3} onValueChanged={maxLightnessChanged}/>]
+    }
+
+    let chromaSliders: ReactElement[]
+
+    if (palette.uniformChroma) {
+        chromaSliders = [<RangeSlider key="chroma" value={palette.minChroma} label="Chroma" min={0.0} max={0.37}
+                                      step={0.001} decimalPlaces={3} onValueChanged={chromaChanged}/>]
+    } else {
+        chromaSliders = [
+            <RangeSlider key="minChroma" value={palette.minChroma} label="Min Chroma" min={0.0} max={0.37} step={0.001}
+                         decimalPlaces={3} onValueChanged={minChromaChanged}/>,
+            <RangeSlider key="maxChroma" value={palette.maxChroma} label="Max Chroma" min={0.0} max={0.37} step={0.001}
+                         decimalPlaces={3} onValueChanged={maxChromaChanged}/>]
+    }
+
     return <div className="flex flex-col">
-        <RangeSlider key="shades" value={palette.shades} label="Shades" min={0} max={32} step={1} onValueChanged={shadesChanged}/>
-        <Checkbox checked={palette.uniformLightness} label="Uniform Lightness" onValueChanged={uniformLightnessChanged}/>
-        <RangeSlider key="minLightness" value={palette.minLightness} label="Min Lightness" min={0} max={1} step={0.001} decimalPlaces={3} onValueChanged={minLightnessChanged}/>
-        <RangeSlider key="maxLightness" value={palette.maxLightness} label="Max Lightness" min={0} max={1} step={0.001} decimalPlaces={3} onValueChanged={maxLightnessChanged}/>
+        <RangeSlider key="shades" value={palette.shades} label="Shades" min={0} max={32} step={1}
+                     onValueChanged={shadesChanged}/>
+        <Checkbox checked={palette.uniformLightness} label="Uniform Lightness"
+                  onValueChanged={uniformLightnessChanged}/>
+        {lightnessSliders}
         <Checkbox checked={palette.uniformChroma} label="Uniform Chroma" onValueChanged={uniformChromaChanged}/>
-        <RangeSlider key="minChroma" value={palette.minChroma} label="Min Chroma" min={0.0} max={0.37} step={0.001} decimalPlaces={3} onValueChanged={minChromaChanged}/>
-        <RangeSlider key="maxChroma" value={palette.maxChroma} label="Max Chroma" min={0.0} max={0.37} step={0.001} decimalPlaces={3} onValueChanged={maxChromaChanged}/>
+        {chromaSliders}
     </div>
 }
 
