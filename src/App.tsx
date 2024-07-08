@@ -11,8 +11,10 @@ import PaletteDisplay from './components/palette-display.tsx'
 const defaultColorHex = "#6366f1";
 const defaultColor = new Color(defaultColorHex)
 const defaultColors = loadDefaultColorPalette({
+    uniformLightness: false,
     minLightness: 0.1,
     maxLightness: 0.2,
+    uniformChroma: true,
     minChroma: 0.1,
     maxChroma: 0.1,
     shades: 4,

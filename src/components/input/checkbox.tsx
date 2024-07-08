@@ -11,7 +11,7 @@ export default function Checkbox({checked, id, label, onValueChanged, width}: Ch
 
     return <div className={`flex flex-row ${width} m-2`}>
         <label htmlFor={id} className="text-slate-950 dark:text-slate-50 flex-1">{label}</label>
-        <input type="checkbox" value={checked} onChange={change}/>
+        <input type="checkbox" checked={checked} onChange={change}/>
     </div>
 }
 
